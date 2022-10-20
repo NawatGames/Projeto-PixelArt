@@ -486,7 +486,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 29811323, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
   m_PrefabInstance: {fileID: 423458897}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &622844977
+--- !u!114 &622844981
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -501,6 +501,40 @@ MonoBehaviour:
   characterMaterial: {fileID: 2100000, guid: 747c2e94d9c07bc4fa82c3a698918a66, type: 2}
   spritesheetsPath: spritesheets
   spritesheets: []
+  nextTextureAction:
+    m_Name: Next Texture
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b21601d5-9b52-4357-b055-532a84cb5a18
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 6c8560c5-d3a9-42dd-a7b2-28f3baede3f8
+      m_Path: <Keyboard>/n
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Next Texture
+      m_Flags: 0
+    m_Flags: 0
+  previousTextureAction:
+    m_Name: Previous Texture
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 2f9f207d-959b-4fa1-b850-3387124777a6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 535ab7b6-dd98-4538-b893-415f36175e00
+      m_Path: <Keyboard>/p
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Previous Texture
+      m_Flags: 0
+    m_Flags: 0
 --- !u!4 &791779615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
