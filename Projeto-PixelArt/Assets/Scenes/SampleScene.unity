@@ -498,6 +498,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae2f950faa93ad45834c877decd72ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterMaterial: {fileID: 2100000, guid: 747c2e94d9c07bc4fa82c3a698918a66, type: 2}
+  spritesheetsPath: spritesheets
+  spritesheets: []
 --- !u!4 &791779615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
