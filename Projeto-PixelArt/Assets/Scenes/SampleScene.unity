@@ -535,6 +535,19 @@ MonoBehaviour:
       m_Action: Previous Texture
       m_Flags: 0
     m_Flags: 0
+--- !u!114 &622844982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622844976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9bf3ea966cff0e42a38c898e49128a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteTextureManager: {fileID: 622844981}
 --- !u!4 &791779615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8944336655422409503, guid: f6d148d888ffbf54b9afe9936dfaec1f, type: 3}
