@@ -9,8 +9,10 @@ public class SpriteAnimationManager : MonoBehaviour
     private Material characterMaterial;
     private Texture2D currentSpritesheetTexture;
 
-    private void Awake()
+    private void Start() // Start comes after Awake
     {
         if (!spriteTextureManager) Debug.LogError($"No SpriteTextureManager attached to {gameObject}'s SpriteAnimationManager");
+        characterMaterial = spriteTextureManager.GetCharacterMaterial();
+        currentSpritesheetTexture = spriteTextureManager.GetCurrentTexture2D();
     }
 }
