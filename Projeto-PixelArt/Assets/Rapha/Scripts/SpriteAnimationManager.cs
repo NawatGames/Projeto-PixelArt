@@ -8,11 +8,13 @@ public class SpriteAnimationManager : MonoBehaviour
 {
     [SerializeField] public SpriteTextureManager spriteTextureManager;
     [SerializeField] public InputActionAsset playerActionAsset;
+    [SerializeField] public float timeBetweenFramesInSeconds = 0.3f;
     
-    private Material characterMaterial;
-    private Texture2D currentSpritesheetTexture;
-    private InputAction playerAction;
-    private PLAYER_STATE currentState = PLAYER_STATE.IDLE;
+    private Material _characterMaterial;
+    private TexturePack _texturePack;
+    private InputAction _playerAction;
+    private PLAYER_STATE _currentState = PLAYER_STATE.IDLE;
+    private bool _isAnimationPlaying;
 
     private void Start() // Start comes after Awake
     {
@@ -20,23 +22,23 @@ public class SpriteAnimationManager : MonoBehaviour
             Debug.LogError($"No SpriteTextureManager attached to {gameObject}'s SpriteAnimationManager");
         if (!playerActionAsset)
             Debug.LogError($"No InputActionAsset attached to {gameObject}'s SpriteAnimationManager");
-        characterMaterial = spriteTextureManager.GetCharacterMaterial();
-        currentSpritesheetTexture = spriteTextureManager.GetCurrentTexture2D();
-        playerAction = playerActionAsset.FindActionMap("Player").FindAction("Move");
+        _characterMaterial = spriteTextureManager.GetCharacterMaterial();
+        _playerAction = playerActionAsset.FindActionMap("Player").FindAction("Move");
+        _isAnimationPlaying = false;
     }
 
     private void Update()
     {
         SetCurrentState();
-        Debug.Log(currentState);
+        AnimatePlayer();
     }
-
+    
     private void SetCurrentState()
     {
-        var objInput = playerAction.ReadValueAsObject();
+        var objInput = _playerAction.ReadValueAsObject();
         if (objInput is null)
         {
-            currentState = PLAYER_STATE.IDLE;
+            _currentState = PLAYER_STATE.IDLE;
             return;
         }
         
@@ -44,7 +46,7 @@ public class SpriteAnimationManager : MonoBehaviour
         var xInput = vec2input[0];
         var yInput = vec2input[1];
 
-        currentState = yInput switch
+        _currentState = yInput switch
         {
             1.0f => PLAYER_STATE.WALKING_FRONT,
             -1.0f => PLAYER_STATE.WALKING_BACK,
@@ -57,6 +59,81 @@ public class SpriteAnimationManager : MonoBehaviour
         };
     }
 
+    private void AnimatePlayer()
+    {
+        _texturePack = CutTexture2D();
+        StartCoroutine(PlayAnimation(_texturePack));
+    }
+    
+    private TexturePack CutTexture2D()
+    {
+        var texture = spriteTextureManager.GetCurrentTexture2D();
+        
+        // Cut logic generating 1 texture for each frame
+        // Put each frame into a List of textures
+
+        return new TexturePack(new List<Texture2D> {});
+    }
+
+    private IEnumerator PlayAnimation(TexturePack texture2Ds)
+    {
+        if (_isAnimationPlaying) yield break;
+        _isAnimationPlaying = true; // Lock
+
+        switch (_currentState)
+        {
+            case PLAYER_STATE.IDLE:
+                _characterMaterial.mainTexture = texture2Ds.IdleTexture2Ds[0];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.IdleTexture2Ds[1];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.IdleTexture2Ds[2];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                break;
+            case PLAYER_STATE.WAKING_RIGHT:
+                _characterMaterial.mainTexture = texture2Ds.WalkingRightTexture2Ds[0];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingRightTexture2Ds[1];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingRightTexture2Ds[2];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                break;
+            case PLAYER_STATE.WALINKG_LEFT:
+                _characterMaterial.mainTexture = texture2Ds.WalkingLeftTexture2Ds[0];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingLeftTexture2Ds[1];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingLeftTexture2Ds[2];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                break;
+            case PLAYER_STATE.WALKING_FRONT:
+                _characterMaterial.mainTexture = texture2Ds.WalkingFrontTexture2Ds[0];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingFrontTexture2Ds[1];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingFrontTexture2Ds[2];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                break;
+            case PLAYER_STATE.WALKING_BACK:
+                _characterMaterial.mainTexture = texture2Ds.WalkingBackTexture2Ds[0];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingBackTexture2Ds[1];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.WalkingBackTexture2Ds[2];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                break;
+            default:
+                _characterMaterial.mainTexture = texture2Ds.IdleTexture2Ds[0];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.IdleTexture2Ds[1];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                _characterMaterial.mainTexture = texture2Ds.IdleTexture2Ds[2];
+                yield return new WaitForSeconds(timeBetweenFramesInSeconds);
+                break;
+        }
+
+        _isAnimationPlaying = false; // Unlock
+    }
 
     private enum PLAYER_STATE
     {
@@ -65,5 +142,23 @@ public class SpriteAnimationManager : MonoBehaviour
         WALINKG_LEFT,
         WALKING_FRONT,
         WALKING_BACK
+    }
+
+    private class TexturePack
+    {
+        public readonly List<Texture2D> IdleTexture2Ds;
+        public readonly List<Texture2D> WalkingRightTexture2Ds;
+        public readonly List<Texture2D> WalkingLeftTexture2Ds;
+        public readonly List<Texture2D> WalkingFrontTexture2Ds;
+        public readonly List<Texture2D> WalkingBackTexture2Ds;
+
+        public TexturePack(IReadOnlyList<Texture2D> textures)
+        {
+            IdleTexture2Ds = new List<Texture2D>() { textures[12], textures[13], textures[14] };
+            WalkingRightTexture2Ds = new List<Texture2D>() { textures[3], textures[4], textures[5] };
+            WalkingLeftTexture2Ds = new List<Texture2D>() { textures[6], textures[7], textures[8] };
+            WalkingFrontTexture2Ds = new List<Texture2D>() { textures[9], textures[10], textures[11] }; 
+            WalkingBackTexture2Ds = new List<Texture2D>() { textures[0], textures[1], textures[2] };
+        }
     }
 }
