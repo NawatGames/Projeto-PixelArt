@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SpriteManager : MonoBehaviour
+public class SpriteTextureManager : MonoBehaviour
 {
     [SerializeField] public Material characterMaterial;
     [SerializeField] public string spritesheetsPath = "spritesheets";
@@ -16,14 +16,24 @@ public class SpriteManager : MonoBehaviour
     private string _previousPath;
     private int _i = 0;
 
-    void Awake()
+    public Texture2D GetCurrentTexture2D()
+    {
+        return spritesheets[_i];
+    }
+
+    public Material GetCharacterMaterial()
+    {
+        return characterMaterial;
+    }
+
+    private void Awake()
     {
         GetDirectoryTextures();
         characterMaterial.mainTexture = spritesheets[_i];
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (nextTextureAction.triggered) ChangeToNextTexture();
         if (previousTextureAction.triggered) ChangeToPreviousTexture();
