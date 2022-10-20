@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -9,11 +10,58 @@ public class SpriteManager : MonoBehaviour
     [SerializeField] public Material characterMaterial;
     [SerializeField] public string spritesheetsPath = "spritesheets";
     [SerializeField] public List<Texture2D> spritesheets;
-
+    
+    [SerializeField] private InputAction nextTextureAction;
+    [SerializeField] private InputAction previousTextureAction;
     private string _previousPath;
     private int _i = 0;
-    
+
     void Awake()
+    {
+        GetDirectoryTextures();
+        characterMaterial.mainTexture = spritesheets[_i];
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (nextTextureAction.triggered) ChangeToNextTexture();
+        if (previousTextureAction.triggered) ChangeToPreviousTexture();
+    }
+
+    private void ChangeToNextTexture()
+    {
+        if (_i + 2 <= spritesheets.Count)
+        {
+            _i++;
+        }
+        else _i = 0;
+        characterMaterial.mainTexture = spritesheets[_i];
+    }
+    
+    private void ChangeToPreviousTexture()
+    {
+        if (_i > 0)
+        {
+            _i--;
+        }
+        else _i = spritesheets.Count - 1;
+        characterMaterial.mainTexture = spritesheets[_i];   
+    }
+    
+    private void OnEnable()
+    {
+        nextTextureAction.Enable();
+        previousTextureAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        nextTextureAction.Disable();
+        previousTextureAction.Disable();
+    }
+
+    private void GetDirectoryTextures()
     {
         _previousPath = spritesheetsPath;
         if (Directory.Exists(Application.dataPath + "/" + spritesheetsPath))
@@ -24,14 +72,6 @@ public class SpriteManager : MonoBehaviour
                 spritesheets.Add(CreateTexture(fileName));
             }
         }
-
-        characterMaterial.mainTexture = spritesheets[_i];
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     
     private Texture2D CreateTexture(string imagePath)
