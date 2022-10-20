@@ -33,6 +33,7 @@ public class ChangeTexture : MonoBehaviour
         {
             i++;
         }
+        else i = 0;
         materialTexture.mainTexture = textures[i];
     }
     
@@ -42,6 +43,7 @@ public class ChangeTexture : MonoBehaviour
         {
             i--;
         }
+        else i = textures.Count - 1;
         materialTexture.mainTexture = textures[i];   
     }
 
