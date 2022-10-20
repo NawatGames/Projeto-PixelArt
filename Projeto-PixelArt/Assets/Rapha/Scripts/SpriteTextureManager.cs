@@ -84,7 +84,7 @@ public class SpriteTextureManager : MonoBehaviour
     
     private Texture2D CreateTexture(string imagePath)
     {
-        Texture2D texture = new Texture2D(256, 256, TextureFormat.RGBA32, false);
+        Texture2D texture = new Texture2D(48, 128, TextureFormat.RGBA32, false);
         byte[] fileData = File.ReadAllBytes(imagePath);
         
         texture.LoadImage(fileData);
