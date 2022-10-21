@@ -81,16 +81,12 @@ public class SpriteAnimationManager : MonoBehaviour
 
         Resources.UnloadUnusedAssets();
         var currentTextureIndex = spriteTextureManager.GetTextureIndex();
-        if (!_hasExecutedFirstTexture)
-        {
-            _hasExecutedFirstTexture = true;
-        }
-        else
-        {
-            if (currentTextureIndex == _textureIndex) return _texturePack;
-            _textureIndex = currentTextureIndex;
-        }
-
+        
+        if (!_hasExecutedFirstTexture) _hasExecutedFirstTexture = true;
+        else if (currentTextureIndex == _textureIndex) return _texturePack;
+        
+        _textureIndex = currentTextureIndex;
+        
         var texture = spriteTextureManager.GetCurrentTexture2D();
         var textureList = new List<Texture2D>();
         
