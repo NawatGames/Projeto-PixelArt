@@ -8,7 +8,7 @@ public class SpriteAnimationManager : MonoBehaviour
 {
     [SerializeField] public SpriteTextureManager spriteTextureManager;
     [SerializeField] public InputActionAsset playerActionAsset;
-    [SerializeField] public float timeBetweenFramesInSeconds = 0.3f;
+    [SerializeField] public float timeBetweenFramesInSeconds = 0.1f;
     
     private Material _characterMaterial;
     private TexturePack _texturePack;
@@ -98,10 +98,7 @@ public class SpriteAnimationManager : MonoBehaviour
         return new TexturePack(textureList);
     }
 
-    private Vector2Int GetTextureSpriteCoordinate(
-        Vector2Int textureSpritePosition,
-        Vector2Int newTextureSize
-        )
+    private Vector2Int GetTextureSpriteCoordinate( Vector2Int textureSpritePosition, Vector2Int newTextureSize)
     {
         var newCoordinate = textureSpritePosition * newTextureSize;
         return newCoordinate;

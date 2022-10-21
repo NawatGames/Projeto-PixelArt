@@ -27,7 +27,6 @@ public class SpriteTextureManager : MonoBehaviour
     private void Awake()
     {
         GetDirectoryTextures();
-        characterMaterial.mainTexture = spritesheets[_i];
     }
 
     // Update is called once per frame
@@ -44,7 +43,6 @@ public class SpriteTextureManager : MonoBehaviour
             _i++;
         }
         else _i = 0;
-        characterMaterial.mainTexture = spritesheets[_i];
     }
     
     private void ChangeToPreviousTexture()
@@ -54,7 +52,6 @@ public class SpriteTextureManager : MonoBehaviour
             _i--;
         }
         else _i = spritesheets.Count - 1;
-        characterMaterial.mainTexture = spritesheets[_i];   
     }
     
     private void OnEnable()
