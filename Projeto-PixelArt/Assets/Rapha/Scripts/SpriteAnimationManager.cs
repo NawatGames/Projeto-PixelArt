@@ -15,6 +15,10 @@ public class SpriteAnimationManager : MonoBehaviour
     private InputAction _playerAction;
     private PLAYER_STATE _currentState = PLAYER_STATE.IDLE;
     private bool _isAnimationPlaying;
+    
+    // Gambiarras
+    private int _textureIndex;
+    private bool _hasExecutedFirstTexture = false;
 
     private int _textureSpriteRow = 8;
     private int _textureSpriteCollumns = 3;
@@ -27,6 +31,7 @@ public class SpriteAnimationManager : MonoBehaviour
             Debug.LogError($"No InputActionAsset attached to {gameObject}'s SpriteAnimationManager");
         _characterMaterial = spriteTextureManager.GetCharacterMaterial();
         _playerAction = playerActionAsset.FindActionMap("Player").FindAction("Move");
+        _textureIndex = spriteTextureManager.GetTextureIndex();
         _isAnimationPlaying = false;
     }
 
@@ -73,7 +78,19 @@ public class SpriteAnimationManager : MonoBehaviour
         // Full texture format: 48p x 128p
         // Sprite format: 16p x 16p
         // Pivot -> 0,0 -> Down-Left cornet
-        
+
+        Resources.UnloadUnusedAssets();
+        var currentTextureIndex = spriteTextureManager.GetTextureIndex();
+        if (!_hasExecutedFirstTexture)
+        {
+            _hasExecutedFirstTexture = true;
+        }
+        else
+        {
+            if (currentTextureIndex == _textureIndex) return _texturePack;
+            _textureIndex = currentTextureIndex;
+        }
+
         var texture = spriteTextureManager.GetCurrentTexture2D();
         var textureList = new List<Texture2D>();
         
@@ -188,6 +205,11 @@ public class SpriteAnimationManager : MonoBehaviour
             WalkingLeftTexture2Ds = new List<Texture2D>() { textures[6], textures[7], textures[8] };
             WalkingFrontTexture2Ds = new List<Texture2D>() { textures[9], textures[10], textures[11] }; 
             WalkingBackTexture2Ds = new List<Texture2D>() { textures[0], textures[1], textures[2] };
+        }
+
+        public void CleanPack()
+        {
+            
         }
     }
 }

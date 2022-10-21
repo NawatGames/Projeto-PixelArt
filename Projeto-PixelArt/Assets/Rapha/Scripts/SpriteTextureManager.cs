@@ -14,6 +14,11 @@ public class SpriteTextureManager : MonoBehaviour
     private string _previousPath;
     private int _i = 0;
 
+    public int GetTextureIndex()
+    {
+        return _i;
+    }
+
     public Texture2D GetCurrentTexture2D()
     {
         return spritesheets[_i];
