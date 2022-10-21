@@ -16,6 +16,9 @@ public class SpriteAnimationManager : MonoBehaviour
     private PLAYER_STATE _currentState = PLAYER_STATE.IDLE;
     private bool _isAnimationPlaying;
 
+    private int _textureSpriteRow = 8;
+    private int _textureSpriteCollumns = 3;
+
     private void Start() // Start comes after Awake
     {
         if (!spriteTextureManager)
@@ -67,12 +70,41 @@ public class SpriteAnimationManager : MonoBehaviour
     
     private TexturePack CutTexture2D()
     {
-        var texture = spriteTextureManager.GetCurrentTexture2D();
+        // Full texture format: 48p x 128p
+        // Sprite format: 16p x 16p
+        // Pivot -> 0,0 -> Down-Left cornet
         
-        // Cut logic generating 1 texture for each frame
-        // Put each frame into a List of textures
+        var texture = spriteTextureManager.GetCurrentTexture2D();
+        var textureList = new List<Texture2D>();
+        
+        var newTextureSize = new Vector2Int(16, 16);
+        
+        for (var row = _textureSpriteRow - 1; row >= 0; row--)
+        {
+            for (var column = 0; column < _textureSpriteCollumns; column++)
+            {
+                var auxTexture = new Texture2D(newTextureSize.x, newTextureSize.y);
+                var coordinate = GetTextureSpriteCoordinate(
+                    new Vector2Int(column, row),
+                    newTextureSize);
+                var textureColors = texture.GetPixels(coordinate.x, coordinate.y, newTextureSize.x, newTextureSize.y);
+                auxTexture.SetPixels(textureColors);
+                auxTexture.filterMode = FilterMode.Point;
+                auxTexture.Apply();
+                textureList.Add(auxTexture);
+            }
+        }
 
-        return new TexturePack(new List<Texture2D> {});
+        return new TexturePack(textureList);
+    }
+
+    private Vector2Int GetTextureSpriteCoordinate(
+        Vector2Int textureSpritePosition,
+        Vector2Int newTextureSize
+        )
+    {
+        var newCoordinate = textureSpritePosition * newTextureSize;
+        return newCoordinate;
     }
 
     private IEnumerator PlayAnimation(TexturePack texture2Ds)
