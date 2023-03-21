@@ -4,7 +4,7 @@ Projeto voltado para os alunos do curso extra curricular de Pixel Art para jogos
 
 # Como utilizar
 
-Depois de buildar o projeto na Unity, adicione arquivos de textura (mapa) e spritesheets (jogador) nos diretórios descritos abaixo para alterar entre eles em tempo real.
+Adicione arquivos de textura (mapa) e spritesheets (jogador) nos diretórios descritos abaixo para alterar entre eles em tempo real. Depois rode o jogo através da Unity.
 
 Diretório de mapas: [textures](./Projeto-PixelArt/Projeto-PixelArt/Assets/Textures/)
 Diretório de spritesheets: [spritesheets (jogador)](./Projeto-PixelArt/Projeto-PixelArt/Assets/Spritesheets/)
