@@ -14,3 +14,8 @@ Diretório de spritesheets: [spritesheets (jogador)](./Projeto-PixelArt/Projeto-
 Altere as texturas por meio das tecla **Q** e **E**
 
 Altere os spritesheets por meio da tecla **P** e **N**
+
+# Imagens do jogo
+
+![](./images/example1.png)
+![](./images/example2.png)
